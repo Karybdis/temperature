@@ -1,0 +1,126 @@
+C51 COMPILER V7.06   TEMP                                                                  07/17/2017 21:44:30 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE TEMP
+OBJECT MODULE PLACED IN temp.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE temp.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include"temp.h"
+   2          
+   3          void Delay1ms(uint y)
+   4          {
+   5   1              uint x;
+   6   1              for( ; y>0; y--)
+   7   1              {
+   8   2                      for(x=110; x>0; x--);
+   9   2              }
+  10   1      }
+  11          
+  12          uchar Ds18b20Init()
+  13          {
+  14   1              uchar i;
+  15   1              DSPORT = 0;     
+  16   1              i = 70; 
+  17   1              while(i--);
+  18   1              DSPORT = 1;                     
+  19   1              i = 0;
+  20   1              while(DSPORT)   
+  21   1              {
+  22   2                      Delay1ms(1);
+  23   2                      i++;
+  24   2                      if(i>5)
+  25   2                      {
+  26   3                              return 0;
+  27   3                      }
+  28   2              
+  29   2              }
+  30   1              return 1;
+  31   1      }
+  32          
+  33          void Ds18b20WriteByte(uchar dat)
+  34          {
+  35   1              uint i, j;
+  36   1      
+  37   1              for(j=0; j<8; j++)
+  38   1              {
+  39   2                      DSPORT = 0;             
+  40   2                      i++;
+  41   2                      DSPORT = dat & 0x01; 
+  42   2                      i=6;
+  43   2                      while(i--);
+  44   2                      DSPORT = 1;
+  45   2                      dat >>= 1;
+  46   2              }
+  47   1      }
+  48          
+  49          
+  50          uchar Ds18b20ReadByte()
+  51          {
+  52   1              uchar byte, bi;
+  53   1              uint i, j;      
+  54   1              for(j=8; j>0; j--)
+  55   1              {
+C51 COMPILER V7.06   TEMP                                                                  07/17/2017 21:44:30 PAGE 2   
+
+  56   2                      DSPORT = 0;
+  57   2                      i++;
+  58   2                      DSPORT = 1;
+  59   2                      i++;
+  60   2                      i++;
+  61   2                      bi = DSPORT;     
+  62   2                      
+  63   2                      byte = (byte >> 1) | (bi << 7);                                           
+  64   2                      i = 4;  
+  65   2                      while(i--);
+  66   2              }                               
+  67   1              return byte;
+  68   1      }
+  69          
+  70          void  Ds18b20ChangTemp()
+  71          {
+  72   1              Ds18b20Init();
+  73   1              Delay1ms(1);
+  74   1              Ds18b20WriteByte(0xcc);                  
+  75   1              Ds18b20WriteByte(0x44);     
+  76   1      
+  77   1      }
+  78          
+  79          void  Ds18b20ReadTempCom()
+  80          {       
+  81   1      
+  82   1              Ds18b20Init();
+  83   1              Delay1ms(1);
+  84   1              Ds18b20WriteByte(0xcc);  
+  85   1              Ds18b20WriteByte(0xbe);  
+  86   1      }
+  87          
+  88          int Ds18b20ReadTemp()
+  89          {
+  90   1              int temp = 0;
+  91   1              uchar tmh, tml;
+  92   1              Ds18b20ChangTemp();                     
+  93   1              Ds18b20ReadTempCom();                   
+  94   1              tml = Ds18b20ReadByte();                
+  95   1              tmh = Ds18b20ReadByte();                
+  96   1              temp = tmh;
+  97   1              temp <<= 8;
+  98   1              temp |= tml;
+  99   1              return temp;
+ 100   1      }
+ 101          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    234    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
