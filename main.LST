@@ -1,4 +1,4 @@
-C51 COMPILER V7.06   MAIN                                                                  07/17/2017 21:44:30 PAGE 1   
+C51 COMPILER V7.06   MAIN                                                                  07/18/2017 21:45:49 PAGE 1   
 
 
 C51 COMPILER V7.06, COMPILATION OF MODULE MAIN
@@ -21,7 +21,7 @@ stmt level    source
   12          char num=0;
   13          u8 DisplayData[8];
   14          u8 code smgduan[10]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};
-  15          
+  15          u8 tem[4];
   16          
   17          void delay(u16 i)
   18          {
@@ -51,91 +51,100 @@ stmt level    source
   42   2                      temp=tp*0.0625*100+0.5; 
   43   2                      
   44   2              }
-  45   1              DisplayData[1] = smgduan[temp / 10000];
-  46   1              DisplayData[2] = smgduan[temp % 10000 / 1000];
-  47   1              DisplayData[3] = smgduan[temp % 1000 / 100] | 0x80;
-  48   1              DisplayData[4] = smgduan[temp % 100 / 10];
-  49   1              DisplayData[5] = smgduan[temp % 10];
-  50   1      }
-  51          
-  52          
-  53          
-  54          void DigDisplay()
-  55          {
-C51 COMPILER V7.06   MAIN                                                                  07/17/2017 21:44:30 PAGE 2   
+  45   1              DisplayData[1] = smgduan[temp / 10000];                         //0
+  46   1              DisplayData[2] = smgduan[temp % 10000 / 1000];                 //2
+  47   1              DisplayData[3] = smgduan[temp % 1000 / 100] | 0x80;             //9.
+  48   1              DisplayData[4] = smgduan[temp % 100 / 10];                      //9
+  49   1              DisplayData[5] = smgduan[temp % 10];                           //4
+  50   1              tem[0]=temp % 10000 / 1000+48;  //2
+  51   1              tem[1]=temp % 1000 / 100+48;    //9.
+  52   1              tem[2]=temp % 100 / 10+48;      //9
+  53   1              tem[3]=temp % 10+48;            //4
+  54   1      }
+  55          
+C51 COMPILER V7.06   MAIN                                                                  07/18/2017 21:45:49 PAGE 2   
 
-  56   1              u8 i;
-  57   1              for(i=0;i<6;i++)
-  58   1              {
-  59   2                      switch(i)       
-  60   2                      {
-  61   3                              case(0):
-  62   3                                      LSA=0;LSB=0;LSC=0; break;
-  63   3                              case(1):
-  64   3                                      LSA=1;LSB=0;LSC=0; break;
-  65   3                              case(2):
-  66   3                                      LSA=0;LSB=1;LSC=0; break;
-  67   3                              case(3):
-  68   3                                      LSA=1;LSB=1;LSC=0; break;
-  69   3                              case(4):
-  70   3                                      LSA=0;LSB=0;LSC=1; break;
-  71   3                              case(5):
-  72   3                                      LSA=1;LSB=0;LSC=1; break;
-  73   3                      }
-  74   2                      P0=DisplayData[5-i];
-  75   2                      delay(100); 
-  76   2                      P0=0x00;
-  77   2              }               
-  78   1      }
-  79          
-  80          
-  81          void main()
-  82          {       
-  83   1              while(1)
-  84   1              {
-  85   2                      datapros(Ds18b20ReadTemp());
-  86   2                      DigDisplay();
-  87   2              }               
-  88   1      }
-  89          /*#include "reg52.h"                     
-  90          typedef unsigned int u16;         
-  91          typedef unsigned char u8;
-  92          {
-  93                  SCON=0X50;                      
-  94                  TMOD=0X20;                      
-  95                  PCON=0X80;                      
-  96                  TH1=0XF3;                               
-  97                  TL1=0XF3;
-  98                  ES=1;                                           
-  99                  EA=1;                                           
- 100                  TR1=1;                                  
- 101          }
- 102          void main()
- 103          {       
- 104                  UsartInit(); 
- 105                  while(1);               
- 106          }
+  56          
+  57          
+  58          void DigDisplay()
+  59          {
+  60   1              u8 i;
+  61   1              for(i=0;i<6;i++)
+  62   1              {
+  63   2                      switch(i)       
+  64   2                      {
+  65   3                              case(0):
+  66   3                                      LSA=0;LSB=0;LSC=0; break;
+  67   3                              case(1):
+  68   3                                      LSA=1;LSB=0;LSC=0; break;
+  69   3                              case(2):
+  70   3                                      LSA=0;LSB=1;LSC=0; break;
+  71   3                              case(3):
+  72   3                                      LSA=1;LSB=1;LSC=0; break;
+  73   3                              case(4):
+  74   3                                      LSA=0;LSB=0;LSC=1; break;
+  75   3                              case(5):
+  76   3                                      LSA=1;LSB=0;LSC=1; break;
+  77   3                      }
+  78   2                      P0=DisplayData[5-i];
+  79   2                      delay(100); 
+  80   2                      P0=0x00;
+  81   2              }               
+  82   1      }
+  83          
+  84          void UsartInit()
+  85          {
+  86   1              SCON=0X50;                      
+  87   1              TMOD=0X20;                      
+  88   1              PCON=0X80;                      
+  89   1              TH1=0XF3;                               
+  90   1              TL1=0XF3;
+  91   1              ES=1;                                           
+  92   1              EA=1;                                           
+  93   1              TR1=1;                                  
+  94   1      }
+  95          
+  96          
+  97          void main()
+  98          {       
+  99   1              UsartInit(); 
+ 100   1              while(1)
+ 101   1              {
+ 102   2                      datapros(Ds18b20ReadTemp());
+ 103   2                      DigDisplay();
+ 104   2              }               
+ 105   1      }
+ 106          
  107          void Usart() interrupt 4
  108          {
- 109                  u8 receiveData;
- 110          
- 111                  receiveData=SBUF;
- 112                  RI = 0;
- 113                  SBUF=receiveData;
- 114                  while(!TI);                      
- 115                  TI=0;                                           
- 116          }*/
- 117          
-C51 COMPILER V7.06   MAIN                                                                  07/17/2017 21:44:30 PAGE 3   
+ 109   1              u8 receiveData;
+ 110   1              int i;
+ 111   1              RI = 0;
+ 112   1              receiveData=SBUF;
+ 113   1              i=receiveData;
+ 114   1              switch(i)
+ 115   1              {
+ 116   2                      case 0:receiveData=tem[0]; break;
+ 117   2                      case 1:receiveData=tem[1]; break;
+C51 COMPILER V7.06   MAIN                                                                  07/18/2017 21:45:49 PAGE 3   
 
+ 118   2                      case 2:receiveData='.'; break;
+ 119   2                      case 3:receiveData=tem[2]; break;
+ 120   2                      case 4:receiveData=tem[3]; break;
+ 121   2              }
+ 122   1      
+ 123   1              SBUF=receiveData;
+ 124   1              while(!TI);                      
+ 125   1              TI=0;                                           
+ 126   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    351    ----
+   CODE SIZE        =    556    ----
    CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      9       4
+   DATA SIZE        =     13       4
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

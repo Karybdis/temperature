@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V5.03                                                        07/17/2017  21:44:30  PAGE 1
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/18/2017  21:45:49  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
@@ -31,35 +31,39 @@ LINK MAP OF MODULE:  temp_port (TEMP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0009H     UNIT         ?DT?MAIN
-            DATA    0011H     0004H     UNIT         _DATA_GROUP_
-            IDATA   0015H     0001H     UNIT         ?STACK
+            DATA    0008H     000DH     UNIT         ?DT?MAIN
+            DATA    0015H     0004H     UNIT         _DATA_GROUP_
+            IDATA   0019H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-                    0003H     07FDH                  *** GAP ***
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
             CODE    0800H     0356H     UNIT         ?C?LIB_CODE
-            CODE    0B56H     00F8H     UNIT         ?PR?_DATAPROS?MAIN
-            CODE    0C4EH     008CH     UNIT         ?C_C51STARTUP
-            CODE    0CDAH     0051H     UNIT         ?PR?DIGDISPLAY?MAIN
-            CODE    0D2BH     0042H     UNIT         ?PR?_DS18B20WRITEBYTE?TEMP
-            CODE    0D6DH     003EH     UNIT         ?PR?DS18B20READBYTE?TEMP
-            CODE    0DABH     0025H     UNIT         ?PR?DS18B20INIT?TEMP
-            CODE    0DD0H     001EH     UNIT         ?PR?_DELAY1MS?TEMP
-            CODE    0DEEH     0017H     UNIT         ?PR?DS18B20READTEMP?TEMP
-            CODE    0E05H     000BH     UNIT         ?PR?_DELAY?MAIN
-            CODE    0E10H     000BH     UNIT         ?PR?MAIN?MAIN
-            CODE    0E1BH     000AH     UNIT         ?CO?MAIN
-            CODE    0E25H     0008H     UNIT         ?PR?DS18B20CHANGTEMP?TEMP
-            CODE    0E2DH     0008H     UNIT         ?PR?DS18B20READTEMPCOM?TEMP
-            CODE    0E35H     0004H     UNIT         ?C_INITSEG
+            CODE    0B56H     015FH     UNIT         ?PR?_DATAPROS?MAIN
+            CODE    0CB5H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0D41H     0051H     UNIT         ?PR?DIGDISPLAY?MAIN
+            CODE    0D92H     004DH     UNIT         ?PR?USART?MAIN
+            CODE    0DDFH     0042H     UNIT         ?PR?_DS18B20WRITEBYTE?TEMP
+            CODE    0E21H     003EH     UNIT         ?PR?DS18B20READBYTE?TEMP
+            CODE    0E5FH     0025H     UNIT         ?PR?DS18B20INIT?TEMP
+            CODE    0E84H     001EH     UNIT         ?PR?_DELAY1MS?TEMP
+            CODE    0EA2H     0017H     UNIT         ?PR?DS18B20READTEMP?TEMP
+            CODE    0EB9H     0016H     UNIT         ?PR?USARTINIT?MAIN
+            CODE    0ECFH     000EH     UNIT         ?PR?MAIN?MAIN
+            CODE    0EDDH     000BH     UNIT         ?PR?_DELAY?MAIN
+            CODE    0EE8H     000AH     UNIT         ?CO?MAIN
+            CODE    0EF2H     0008H     UNIT         ?PR?DS18B20CHANGTEMP?TEMP
+            CODE    0EFAH     0008H     UNIT         ?PR?DS18B20READTEMPCOM?TEMP
+            CODE    0F02H     0004H     UNIT         ?C_INITSEG
+
+
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 2
 
 
 
 OVERLAY MAP OF MODULE:   temp_port (TEMP)
-
-
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 2
 
 
 SEGMENT                               DATA_GROUP 
@@ -70,11 +74,12 @@ SEGMENT                               DATA_GROUP
   +--> ?C_INITSEG
 
 ?PR?MAIN?MAIN                       -----    -----
+  +--> ?PR?USARTINIT?MAIN
   +--> ?PR?DS18B20READTEMP?TEMP
   +--> ?PR?_DATAPROS?MAIN
   +--> ?PR?DIGDISPLAY?MAIN
 
-?PR?DS18B20READTEMP?TEMP            0011H    0001H
+?PR?DS18B20READTEMP?TEMP            0015H    0001H
   +--> ?PR?DS18B20CHANGTEMP?TEMP
   +--> ?PR?DS18B20READTEMPCOM?TEMP
   +--> ?PR?DS18B20READBYTE?TEMP
@@ -82,7 +87,7 @@ SEGMENT                               DATA_GROUP
 ?PR?DS18B20CHANGTEMP?TEMP           -----    -----
   +--> ?PR?_DS18B20WRITEBYTE?TEMP
 
-?PR?_DS18B20WRITEBYTE?TEMP          0012H    0002H
+?PR?_DS18B20WRITEBYTE?TEMP          0016H    0002H
   +--> ?PR?DS18B20INIT?TEMP
   +--> ?PR?_DELAY1MS?TEMP
 
@@ -92,7 +97,7 @@ SEGMENT                               DATA_GROUP
 ?PR?DS18B20READTEMPCOM?TEMP         -----    -----
   +--> ?PR?_DS18B20WRITEBYTE?TEMP
 
-?PR?_DATAPROS?MAIN                  0011H    0004H
+?PR?_DATAPROS?MAIN                  0015H    0004H
   +--> ?CO?MAIN
 
 ?PR?DIGDISPLAY?MAIN                 -----    -----
@@ -107,85 +112,85 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
 
   -------         MODULE        TEMP
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0DEEH         PUBLIC        Ds18b20ReadTemp
+  C:0EA2H         PUBLIC        Ds18b20ReadTemp
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:0E2DH         PUBLIC        Ds18b20ReadTempCom
+  C:0EFAH         PUBLIC        Ds18b20ReadTempCom
   D:0098H         PUBLIC        SCON
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 3
+
+
   D:0088H         PUBLIC        TCON
   B:00B0H.7       PUBLIC        DSPORT
-  C:0E25H         PUBLIC        Ds18b20ChangTemp
-  C:0DD0H         PUBLIC        _Delay1ms
+  C:0EF2H         PUBLIC        Ds18b20ChangTemp
+  C:0E84H         PUBLIC        _Delay1ms
   D:00C8H         PUBLIC        T2CON
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 3
-
-
-  C:0D37H         PUBLIC        _Ds18b20WriteByte
+  C:0DEBH         PUBLIC        _Ds18b20WriteByte
   D:00D0H         PUBLIC        PSW
-  C:0D6DH         PUBLIC        Ds18b20ReadByte
-  C:0DABH         PUBLIC        Ds18b20Init
+  C:0E21H         PUBLIC        Ds18b20ReadByte
+  C:0E5FH         PUBLIC        Ds18b20Init
   -------         PROC          _DELAY1MS
   D:0006H         SYMBOL        y
   -------         DO            
   D:0004H         SYMBOL        x
   -------         ENDDO         
-  C:0DD0H         LINE#         3
-  C:0DD0H         LINE#         4
-  C:0DD0H         LINE#         6
-  C:0DD9H         LINE#         7
-  C:0DD9H         LINE#         8
-  C:0DE6H         LINE#         9
-  C:0DEDH         LINE#         10
+  C:0E84H         LINE#         3
+  C:0E84H         LINE#         4
+  C:0E84H         LINE#         6
+  C:0E8DH         LINE#         7
+  C:0E8DH         LINE#         8
+  C:0E9AH         LINE#         9
+  C:0EA1H         LINE#         10
   -------         ENDPROC       _DELAY1MS
   -------         PROC          DS18B20INIT
   -------         DO            
   D:0003H         SYMBOL        i
   -------         ENDDO         
-  C:0DABH         LINE#         12
-  C:0DABH         LINE#         13
-  C:0DABH         LINE#         15
-  C:0DADH         LINE#         16
-  C:0DAFH         LINE#         17
-  C:0DB5H         LINE#         18
-  C:0DB7H         LINE#         19
-  C:0DB9H         LINE#         20
-  C:0DBCH         LINE#         21
-  C:0DBCH         LINE#         22
-  C:0DC3H         LINE#         23
-  C:0DC4H         LINE#         24
-  C:0DCAH         LINE#         25
-  C:0DCAH         LINE#         26
-  C:0DCDH         LINE#         27
-  C:0DCDH         LINE#         29
-  C:0DCDH         LINE#         30
-  C:0DCFH         LINE#         31
+  C:0E5FH         LINE#         12
+  C:0E5FH         LINE#         13
+  C:0E5FH         LINE#         15
+  C:0E61H         LINE#         16
+  C:0E63H         LINE#         17
+  C:0E69H         LINE#         18
+  C:0E6BH         LINE#         19
+  C:0E6DH         LINE#         20
+  C:0E70H         LINE#         21
+  C:0E70H         LINE#         22
+  C:0E77H         LINE#         23
+  C:0E78H         LINE#         24
+  C:0E7EH         LINE#         25
+  C:0E7EH         LINE#         26
+  C:0E81H         LINE#         27
+  C:0E81H         LINE#         29
+  C:0E81H         LINE#         30
+  C:0E83H         LINE#         31
   -------         ENDPROC       DS18B20INIT
   -------         PROC          L?0039
   -------         ENDPROC       L?0039
   -------         PROC          _DS18B20WRITEBYTE
   D:0007H         SYMBOL        dat
   -------         DO            
-  D:0012H         SYMBOL        i
+  D:0016H         SYMBOL        i
   D:0002H         SYMBOL        j
   -------         ENDDO         
-  C:0D37H         LINE#         33
-  C:0D37H         LINE#         34
-  C:0D37H         LINE#         37
-  C:0D3AH         LINE#         38
-  C:0D3AH         LINE#         39
-  C:0D3CH         LINE#         40
-  C:0D44H         LINE#         41
-  C:0D48H         LINE#         42
-  C:0D4EH         LINE#         43
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 4
+  C:0DEBH         LINE#         33
+  C:0DEBH         LINE#         34
+  C:0DEBH         LINE#         37
+  C:0DEEH         LINE#         38
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 4
 
 
-  C:0D5BH         LINE#         44
-  C:0D5DH         LINE#         45
-  C:0D61H         LINE#         46
-  C:0D6CH         LINE#         47
+  C:0DEEH         LINE#         39
+  C:0DF0H         LINE#         40
+  C:0DF8H         LINE#         41
+  C:0DFCH         LINE#         42
+  C:0E02H         LINE#         43
+  C:0E0FH         LINE#         44
+  C:0E11H         LINE#         45
+  C:0E15H         LINE#         46
+  C:0E20H         LINE#         47
   -------         ENDPROC       _DS18B20WRITEBYTE
   -------         PROC          DS18B20READBYTE
   -------         DO            
@@ -194,60 +199,60 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   D:0006H         SYMBOL        i
   D:0004H         SYMBOL        j
   -------         ENDDO         
-  C:0D6DH         LINE#         50
-  C:0D6DH         LINE#         51
-  C:0D6DH         LINE#         54
-  C:0D71H         LINE#         55
-  C:0D71H         LINE#         56
-  C:0D73H         LINE#         57
-  C:0D77H         LINE#         58
-  C:0D79H         LINE#         59
-  C:0D7DH         LINE#         60
-  C:0D81H         LINE#         61
-  C:0D85H         LINE#         63
-  C:0D91H         LINE#         64
-  C:0D95H         LINE#         65
-  C:0D9FH         LINE#         66
-  C:0DA8H         LINE#         67
-  C:0DAAH         LINE#         68
+  C:0E21H         LINE#         50
+  C:0E21H         LINE#         51
+  C:0E21H         LINE#         54
+  C:0E25H         LINE#         55
+  C:0E25H         LINE#         56
+  C:0E27H         LINE#         57
+  C:0E2BH         LINE#         58
+  C:0E2DH         LINE#         59
+  C:0E31H         LINE#         60
+  C:0E35H         LINE#         61
+  C:0E39H         LINE#         63
+  C:0E45H         LINE#         64
+  C:0E49H         LINE#         65
+  C:0E53H         LINE#         66
+  C:0E5CH         LINE#         67
+  C:0E5EH         LINE#         68
   -------         ENDPROC       DS18B20READBYTE
   -------         PROC          DS18B20CHANGTEMP
-  C:0E25H         LINE#         70
-  C:0E25H         LINE#         71
-  C:0E25H         LINE#         72
-  C:0E25H         LINE#         73
-  C:0E25H         LINE#         74
-  C:0E28H         LINE#         75
+  C:0EF2H         LINE#         70
+  C:0EF2H         LINE#         71
+  C:0EF2H         LINE#         72
+  C:0EF2H         LINE#         73
+  C:0EF2H         LINE#         74
+  C:0EF5H         LINE#         75
   -------         ENDPROC       DS18B20CHANGTEMP
   -------         PROC          DS18B20READTEMPCOM
-  C:0E2DH         LINE#         79
-  C:0E2DH         LINE#         80
-  C:0E2DH         LINE#         82
-  C:0E2DH         LINE#         83
-  C:0E2DH         LINE#         84
-  C:0E30H         LINE#         85
+  C:0EFAH         LINE#         79
+  C:0EFAH         LINE#         80
+  C:0EFAH         LINE#         82
+  C:0EFAH         LINE#         83
+  C:0EFAH         LINE#         84
+  C:0EFDH         LINE#         85
   -------         ENDPROC       DS18B20READTEMPCOM
   -------         PROC          DS18B20READTEMP
   -------         DO            
   D:0006H         SYMBOL        temp
   D:0007H         SYMBOL        tmh
-  D:0011H         SYMBOL        tml
+  D:0015H         SYMBOL        tml
   -------         ENDDO         
-  C:0DEEH         LINE#         88
-  C:0DEEH         LINE#         89
-  C:0DEEH         LINE#         90
-  C:0DF1H         LINE#         92
-  C:0DF4H         LINE#         93
-  C:0DF7H         LINE#         94
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 5
+  C:0EA2H         LINE#         88
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 5
 
 
-  C:0DFCH         LINE#         95
-  C:0DFFH         LINE#         96
-  C:0DFFH         LINE#         97
-  C:0E01H         LINE#         98
-  C:0E04H         LINE#         99
-  C:0E04H         LINE#         100
+  C:0EA2H         LINE#         89
+  C:0EA2H         LINE#         90
+  C:0EA5H         LINE#         92
+  C:0EA8H         LINE#         93
+  C:0EABH         LINE#         94
+  C:0EB0H         LINE#         95
+  C:0EB3H         LINE#         96
+  C:0EB3H         LINE#         97
+  C:0EB5H         LINE#         98
+  C:0EB8H         LINE#         99
+  C:0EB8H         LINE#         100
   -------         ENDPROC       DS18B20READTEMP
   -------         ENDMOD        TEMP
 
@@ -257,33 +262,49 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
   D:00A8H         PUBLIC        IE
+  C:0D92H         PUBLIC        Usart
+  B:00A8H.4       PUBLIC        ES
   D:00B8H         PUBLIC        IP
-  C:0E10H         PUBLIC        main
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:0ECFH         PUBLIC        main
+  C:0EB9H         PUBLIC        UsartInit
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
   D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
   C:0B56H         PUBLIC        _datapros
-  D:0008H         PUBLIC        num
-  D:0009H         PUBLIC        DisplayData
+  D:0008H         PUBLIC        tem
+  D:008DH         PUBLIC        TH1
+  D:000CH         PUBLIC        num
+  D:008BH         PUBLIC        TL1
+  D:000DH         PUBLIC        DisplayData
+  B:0088H.6       PUBLIC        TR1
   B:00A0H.2       PUBLIC        LSA
   B:00A0H.3       PUBLIC        LSB
   B:00A0H.4       PUBLIC        LSC
   D:00C8H         PUBLIC        T2CON
-  C:0CDAH         PUBLIC        DigDisplay
-  C:0E05H         PUBLIC        _delay
-  C:0E1BH         PUBLIC        smgduan
+  C:0D41H         PUBLIC        DigDisplay
+  C:0EDDH         PUBLIC        _delay
+  C:0EE8H         PUBLIC        smgduan
   D:00D0H         PUBLIC        PSW
   -------         PROC          _DELAY
   D:0006H         SYMBOL        i
-  C:0E05H         LINE#         17
-  C:0E05H         LINE#         18
-  C:0E05H         LINE#         19
-  C:0E0FH         LINE#         20
+  C:0EDDH         LINE#         17
+  C:0EDDH         LINE#         18
+  C:0EDDH         LINE#         19
+  C:0EE7H         LINE#         20
   -------         ENDPROC       _DELAY
   -------         PROC          _DATAPROS
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 6
+
+
   D:0002H         SYMBOL        temp
   -------         DO            
-  D:0011H         SYMBOL        tp
+  D:0015H         SYMBOL        tp
   -------         ENDDO         
   C:0B56H         LINE#         25
   C:0B5AH         LINE#         26
@@ -299,9 +320,6 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   C:0B72H         LINE#         39
   C:0B75H         LINE#         40
   C:0B85H         LINE#         42
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 6
-
-
   C:0BA7H         LINE#         44
   C:0BA7H         LINE#         45
   C:0BC0H         LINE#         46
@@ -309,45 +327,88 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   C:0C0EH         LINE#         48
   C:0C34H         LINE#         49
   C:0C4DH         LINE#         50
+  C:0C6AH         LINE#         51
+  C:0C87H         LINE#         52
+  C:0CA4H         LINE#         53
+  C:0CB4H         LINE#         54
   -------         ENDPROC       _DATAPROS
   -------         PROC          DIGDISPLAY
   -------         DO            
   D:0005H         SYMBOL        i
   -------         ENDDO         
-  C:0CDAH         LINE#         54
-  C:0CDAH         LINE#         55
-  C:0CDAH         LINE#         57
-  C:0CDCH         LINE#         58
-  C:0CDCH         LINE#         59
-  C:0CF0H         LINE#         60
-  C:0CF0H         LINE#         61
-  C:0CF0H         LINE#         62
-  C:0CF4H         LINE#         63
-  C:0CF4H         LINE#         64
-  C:0CFCH         LINE#         65
-  C:0CFCH         LINE#         66
-  C:0D00H         LINE#         67
-  C:0D00H         LINE#         68
-  C:0D08H         LINE#         69
-  C:0D08H         LINE#         70
-  C:0D0CH         LINE#         71
-  C:0D0CH         LINE#         72
-  C:0D12H         LINE#         73
-  C:0D12H         LINE#         74
-  C:0D1CH         LINE#         75
-  C:0D23H         LINE#         76
-  C:0D26H         LINE#         77
-  C:0D2AH         LINE#         78
+  C:0D41H         LINE#         58
+  C:0D41H         LINE#         59
+  C:0D41H         LINE#         61
+  C:0D43H         LINE#         62
+  C:0D43H         LINE#         63
+  C:0D57H         LINE#         64
+  C:0D57H         LINE#         65
+  C:0D57H         LINE#         66
+  C:0D5BH         LINE#         67
+  C:0D5BH         LINE#         68
+  C:0D63H         LINE#         69
+  C:0D63H         LINE#         70
+  C:0D67H         LINE#         71
+  C:0D67H         LINE#         72
+  C:0D6FH         LINE#         73
+  C:0D6FH         LINE#         74
+  C:0D73H         LINE#         75
+  C:0D73H         LINE#         76
+  C:0D79H         LINE#         77
+  C:0D79H         LINE#         78
+  C:0D83H         LINE#         79
+  C:0D8AH         LINE#         80
+  C:0D8DH         LINE#         81
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 7
+
+
+  C:0D91H         LINE#         82
   -------         ENDPROC       DIGDISPLAY
+  -------         PROC          USARTINIT
+  C:0EB9H         LINE#         84
+  C:0EB9H         LINE#         85
+  C:0EB9H         LINE#         86
+  C:0EBCH         LINE#         87
+  C:0EBFH         LINE#         88
+  C:0EC2H         LINE#         89
+  C:0EC5H         LINE#         90
+  C:0EC8H         LINE#         91
+  C:0ECAH         LINE#         92
+  C:0ECCH         LINE#         93
+  C:0ECEH         LINE#         94
+  -------         ENDPROC       USARTINIT
   -------         PROC          MAIN
-  C:0E10H         LINE#         81
-  C:0E10H         LINE#         82
-  C:0E10H         LINE#         83
-  C:0E10H         LINE#         84
-  C:0E10H         LINE#         85
-  C:0E16H         LINE#         86
-  C:0E19H         LINE#         87
+  C:0ECFH         LINE#         97
+  C:0ECFH         LINE#         98
+  C:0ECFH         LINE#         99
+  C:0ED2H         LINE#         100
+  C:0ED2H         LINE#         101
+  C:0ED2H         LINE#         102
+  C:0ED8H         LINE#         103
+  C:0EDBH         LINE#         104
   -------         ENDPROC       MAIN
+  -------         PROC          USART
+  -------         DO            
+  D:0007H         SYMBOL        receiveData
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:0D92H         LINE#         107
+  C:0D9FH         LINE#         111
+  C:0DA1H         LINE#         112
+  C:0DA3H         LINE#         113
+  C:0DA7H         LINE#         114
+  C:0DBBH         LINE#         115
+  C:0DBBH         LINE#         116
+  C:0DBFH         LINE#         117
+  C:0DC3H         LINE#         118
+  C:0DC7H         LINE#         119
+  C:0DCBH         LINE#         120
+  C:0DCDH         LINE#         121
+  C:0DCDH         LINE#         123
+  C:0DCFH         LINE#         124
+  C:0DD2H         LINE#         125
+  C:0DD4H         LINE#         126
+  -------         ENDPROC       USART
   -------         ENDMOD        MAIN
 
   -------         MODULE        ?C?FPADD
@@ -358,8 +419,8 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   -------         MODULE        ?C?FPMUL
   C:08F8H         PUBLIC        ?C?FPMUL
   -------         ENDMOD        ?C?FPMUL
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/18/2017  21:45:49  PAGE 8
 
-BL51 BANKED LINKER/LOCATER V5.03                                                      07/17/2017  21:44:30  PAGE 7
 
 
   -------         MODULE        ?C?FCAST
@@ -385,8 +446,8 @@ SYMBOL TABLE OF MODULE:  temp_port (TEMP)
   -------         ENDMOD        ?C?UIDIV
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 026CH BYTE (30%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0341H BYTE (40%) *
 ******************************************************************************
 
-Program Size: data=22.0 xdata=0 code=1596
+Program Size: data=26.0 xdata=0 code=1804
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
